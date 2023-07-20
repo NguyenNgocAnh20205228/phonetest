@@ -13,16 +13,18 @@
         </tbody></table>
     <?php
     require_once ('php/connect.php');
-    $sql_ND="select * from nguoidung";
-    $result=mysqli_query($conn,$sql_ND );?>
+?>
 
-    <div class="table-content"><table class="table-outline hideImg"><tbody>
+    <div class="table-content" id="table-content">
+        <table class="table-outline hideImg"><tbody>
             <?php
+            $sql_ND="select * from nguoidung where MaQuyen='1'";
+            $result=mysqli_query($conn,$sql_ND );
             $i=1;
             while ($row=mysqli_fetch_array($result)){?>
             <tr>
                 <td style="width: 5%"><?php echo $i++ ?></td>
-                <td style="width: 10%"><?php echo $row['Ho'].''.$row['Ten']?></td>
+                <td style="width: 10%"><?php echo $row['Ho'].''." ".''.$row['Ten']?></td>
                 <td style="width: 10%"><?php echo $row['DiaChi']?></td>
                 <td style="width: 10%"><?php echo $row['Email']?></td>
                 <td style="width: 10%"><?php echo $row['TaiKhoan']?></td>
@@ -36,22 +38,28 @@
                         <span class="tooltiptext">Khóa</span>
                     </div>
                     <div class="tooltip">
-                        <i class="fa fa-remove" onclick="xoaNguoiDung('abc')"></i>
+                        <i class="fa fa-remove" onclick="xoaNguoiDung(<?= $row['MaND']?>)"></i>
                         <span class="tooltiptext">Xóa</span>
                     </div>
                 </td>
             </tr>
             <?php } ?>
 
-            </tbody></table></div>
+            </tbody>
+        </table>
+    </div>
+    <div id="khungThemSanPham" class="overlay" >
+        <?php require_once('add_update_product.php');?>
+
+    </div>
 
     <div class="table-footer">
-        <select name="kieuTimKhachHang">
-            <option value="ten">Tìm theo họ tên</option>
-            <option value="email">Tìm theo email</option>
-            <option value="taikhoan">Tìm theo tài khoản</option>
+        <select name="kieuTimNguoiDung"id="kieuTimNguoiDung">
+            <option value="HoTen">Tìm theo họ tên</option>
+            <option value="Email">Tìm theo email</option>
+            <option value="TaiKhoan">Tìm theo tài khoản</option>
         </select>
-        <input type="text" placeholder="Tìm kiếm..." onkeyup="timKiemNguoiDung(this)">
-        <button onclick="openThemNguoiDung()"><i class="fa fa-plus-square"></i> Thêm người dùng</button>
+        <input type="text" id="NoiDungNguoiDungTimKiem" placeholder="Tìm kiếm..." onkeyup="timKiemNguoiDung()">
+        <button onclick="viewAddNguoiDung()"><i class="fa fa-plus-square"></i> Thêm người dùng</button>
     </div>
 </div>

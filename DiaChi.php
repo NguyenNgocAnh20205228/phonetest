@@ -54,59 +54,7 @@ if (!isset($_SESSION['address'])) {
 
 ?>
 <section style="min-height: 85vh">
-    <div class="header group">
-        <div class="logo">
-            <a href="index.php">
-                <img src="img/logo.png" alt="Trang chủ Smartphone Store" title="Trang chủ Smartphone Store">
-            </a>
-        </div> <!-- End Logo -->
-
-        <div class="content">
-            <div class="search-header" style="position: relative; left: 162px; top: 1px;">
-                <form class="input-search" method="get" action="index.php">
-                    <div class="autocomplete">
-                        <input id="search-box" name="search" autocomplete="off" type="text" placeholder="Nhập từ khóa tìm kiếm...">
-                        <button type="submit">
-                            <i class="fa fa-search"></i>
-                            Tìm kiếm
-                        </button>
-                    </div>
-                </form> <!-- End Form search -->
-                <div class="tags">
-                    <strong>Từ khóa: </strong>
-                </div>
-            </div> <!-- End Search header -->
-
-            <div class="tools-member">
-                <div class="member">
-                    <a onclick="checkTaiKhoan()">
-                        <i class="fa fa-user"></i>
-                        Tài khoản
-                    </a>
-                    <div class="menuMember hide">
-                        <a href="nguoidung.html">Trang người dùng</a>
-                        <a onclick="if(window.confirm('Xác nhận đăng xuất ?')) logOut();">Đăng xuất</a>
-                    </div>
-
-                </div> <!-- End Member -->
-
-                <div class="cart">
-                    <a href="giohang.php">
-                        <i class="fa fa-shopping-cart"></i>
-                        <span>Giỏ hàng</span>
-                        <span class="cart-number"></span>
-                    </a>
-                </div> <!-- End Cart -->
-
-                <!--<div class="check-order">
-                    <a>
-                        <i class="fa fa-truck"></i>
-                        <span>Đơn hàng</span>
-                    </a>
-                </div> -->
-            </div><!-- End Tools Member -->
-        </div> <!-- End Content -->
-    </div> <!-- End Header -->
+    <?php require_once ('dungchung/header.php')?>
 
 <!-- -------------delivery icon------ -->
 <section class="delivery">
@@ -135,23 +83,36 @@ if (!isset($_SESSION['address'])) {
                     <div class="delivery-content-left-input-top row" >
                         <div class="delivery-content-left-input-top-item">
                             <label  for="">Họ<span style="color:red;"></span></label>
-                            <input type="text" id="Ho" name="Ho" value="" required oninvalid="this.setCustomValidity('Hãy nhập họ!')" onchange="this.setCustomValidity('')" type="text">
+                            <input type="text" id="Ho" name="Ho" value="<?php echo $_SESSION['user']['Ho'];?>" required oninvalid="this.setCustomValidity('Hãy nhập họ!')" onchange="this.setCustomValidity('')" type="text">
                         </div>
                         <div class="delivery-content-left-input-top-item">
                             <label  for="">Tên<span style="color:red;"></span></label>
-                            <input type="text" id="Ten" name="Ten" value="" required oninvalid="this.setCustomValidity('Hãy nhập tên!')" onchange="this.setCustomValidity('')" type="text">
+                            <input type="text" id="Ten" name="Ten" value="<?php echo $_SESSION['user']['Ten'];?>" required oninvalid="this.setCustomValidity('Hãy nhập tên!')" onchange="this.setCustomValidity('')" type="text">
                         </div>
                         <div class="delivery-content-left-input-top-item">
                             <label  for="">Điện thoại<span style="color:red;"></span></label>
-                            <input type="number" name="phone_number" id="phone_number" value="" required oninvalid="this.setCustomValidity('Hãy nhập số điện thoại!')" onchange="this.setCustomValidity('')" type="number">
+                            <input type="number" name="phone_number" id="phone_number" value="<?php echo $_SESSION['user']['SDT'];?>" required oninvalid="this.setCustomValidity('Hãy nhập số điện thoại!')" onchange="this.setCustomValidity('')" type="number">
                         </div>
                         <div class="delivery-content-left-input-top-item">
                             <label  for="">Tỉnh/Tp<span style="color:red;"></span></label>
-                            <input type="text" name="province" id="province" value="" required oninvalid="this.setCustomValidity('Hãy nhập tỉnh nhập tỉnh/thành phố!')" onchange="this.setCustomValidity('')" type="text">
+<!--                            <input type="text" name="province" id="province" value="" required oninvalid="this.setCustomValidity('Hãy nhập tỉnh nhập tỉnh/thành phố!')" onchange="this.setCustomValidity('')" type="text">-->
+                            <select class="form-control" id="city" aria-label=".form-select-sm" required oninvalid="this.setCustomValidity('Hãy chọn tên tỉnh của bạn!')" oninput="this.setCustomValidity('')">
+                                <option value="" selected>Chọn tỉnh thành</option>
+                            </select>
                         </div>
                         <div class="delivery-content-left-input-top-item">
                             <label  for="">Quận/Huyện<span style="color:red;"></span></label>
-                            <input type="text" name="district" id="district" value="" required oninvalid="this.setCustomValidity('Hãy nhập quận/huyện !')" onchange="this.setCustomValidity('')" type="text">
+<!--                            <input type="text" name="district" id="district" value="" required oninvalid="this.setCustomValidity('Hãy nhập quận/huyện !')" onchange="this.setCustomValidity('')" type="text">-->
+                            <select class="form-control" id="district" aria-label=".form-select-sm" required oninvalid="this.setCustomValidity('Hãy chọn tên quận huyện của bạn!')" oninput="this.setCustomValidity('')">
+                                <option value="" selected>Chọn quận huyện</option>
+                            </select>
+                        </div>
+                        <div class="delivery-content-left-input-top-item">
+                            <label  for="">Phường Xã<span style="color:red;"></span></label>
+<!--                            <input type="text" name="district" id="district" value="" required oninvalid="this.setCustomValidity('Hãy nhập quận/huyện !')" onchange="this.setCustomValidity('')" type="text">-->
+                            <select class="form-control" id="ward" aria-label=".form-select-sm" required oninvalid="this.setCustomValidity('Hãy chọn tên phường xã của bạn!')"oninput="this.setCustomValidity('')">
+                                <option value="" selected>Chọn phường xã</option>
+                            </select>
                         </div>
                     </div>
                     <div class="delivery-content-left-input-bottom">
@@ -243,5 +204,48 @@ if (!isset($_SESSION['address'])) {
 <script src="js/thanhtoan.js"></script>
 <script src="js/Jquery/Jquery.min.js"></script>
 <script src="js/owlcarousel/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    var citis = document.getElementById("city");
+    var districts = document.getElementById("district");
+    var wards = document.getElementById("ward");
+    var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const x of data) {
+            citis.options[citis.options.length] = new Option(x.Name, x.Id);
+        }
+        citis.onchange = function () {
+            district.length = 1;
+            ward.length = 1;
+            if(this.value != ""){
+                const result = data.filter(n => n.Id === this.value);
+
+                for (const k of result[0].Districts) {
+                    district.options[district.options.length] = new Option(k.Name, k.Id);
+                }
+            }
+        };
+        district.onchange = function () {
+            ward.length = 1;
+            const dataCity = data.filter((n) => n.Id === citis.value);
+            if (this.value != "") {
+                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+                for (const w of dataWards) {
+                    wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                }
+            }
+        };
+    }
+</script>
 </body>
 </html>

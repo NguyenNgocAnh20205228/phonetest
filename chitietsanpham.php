@@ -127,51 +127,47 @@
             </div>
         </div>
         <hr>
-        <div class="comment-area">
-            <div class="guiBinhLuan">
-                <div class="stars">
-                    <form action="">
-                        <input class="star star-5" id="star-5" value="5" type="radio" name="star">
-                        <label class="star star-5" for="star-5" title="Tuyệt vời"></label>
-
-                        <input class="star star-4" id="star-4" value="4" type="radio" name="star">
-                        <label class="star star-4" for="star-4" title="Tốt"></label>
-
-                        <input class="star star-3" id="star-3" value="3" type="radio" name="star">
-                        <label class="star star-3" for="star-3" title="Tạm"></label>
-
-                        <input class="star star-2" id="star-2" value="2" type="radio" name="star">
-                        <label class="star star-2" for="star-2" title="Khá"></label>
-
-                        <input class="star star-1" id="star-1" value="1" type="radio" name="star">
-                        <label class="star star-1" for="star-1" title="Tệ"></label>
-                    </form>
+        <div id="goiYSanPham"><div class="khungSanPham" style="border-color: #434aa8">
+                <h3 class="tenKhung" style="background-image: linear-gradient(120deg, #434aa8 0%, #ec1f1f 50%, #434aa8 100%);">* Bạn có thể thích *</h3>
+                <div class="listSpTrongKhung flexContain">
+                    <?php
+                    $count_product='select MaSP from sanpham';
+                    $count_product1=mysqli_query($conn,$count_product);
+                    $arr_r=array();
+                    $i=1;
+                    while ($count_product2=mysqli_fetch_array($count_product1)){
+                        if($count_product2['MaSP']!=$sanpham_id) {
+                            $arr_r[$i] = $count_product2['MaSP'];
+                            $i++;
+                        }
+                    }
+                    shuffle($arr_r);
+                    ?>
+                    <?php
+                    for ($i=1; $i<=10;$i++){
+                    $sql_product1="select * from sanpham where MaSP='$arr_r[$i]'";
+                    $result1=mysqli_query($conn,$sql_product1 );
+                    $row1= mysqli_fetch_array($result1);
+                    ?>
+                    <li class="sanPham">
+                        <a href="chitietsanpham.php?id=<?php echo$row1['MaSP']  ?>">
+                            <img src="<?php echo $row1['HinhAnh'] ?>" alt="">
+                            <h3><?php echo $row1['TenSP'];?></h3>
+                            <div class="price">
+                                <strong><?php echo number_format($row1['DonGia'], 0, ',');?>₫</strong>
+                                <span><?php $DonGia1=$row1['DonGia']+$row1['MaKM']; echo number_format($DonGia1, 0, ',');?>₫</span>
+                            </div>
+                            <label class="giamgia">
+                                <i class="fa fa-bolt"></i> Giảm <?php echo number_format($row1['MaKM'], 0, ',');?>₫
+                            </label>
+                        </a>
+                    </li>
+                    <?php } ?>
                 </div>
-                <textarea maxlength="250" id="inpBinhLuan" placeholder="Viết suy nghĩ của bạn vào đây..."></textarea>
-                <input id="btnBinhLuan" type="button" onclick="checkGuiBinhLuan()" value="GỬI BÌNH LUẬN">
-            </div>
-            <!-- <h2>Bình luận</h2> -->
-            <div class="container-comment">
-                <div class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><span> 3 đánh giá </span></div>
-                <div class="comment-content"><div class="comment">
-                    <i class="fa fa-user-circle"> </i>
-                    <h4>Abc<span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span></h4>
-                    <p>Hoàng trần đẹp trai</p>
-                    <span class="time">2019-05-16 19:28:13</span>
-                </div><div class="comment">
-                    <i class="fa fa-user-circle"> </i>
-                    <h4>Abc<span> <i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></span></h4>
-                    <p>Chưa tốt! cần cải thiện nhiều</p>
-                    <span class="time">2019-05-16 19:29:30</span>
-                </div><div class="comment">
-                    <i class="fa fa-user-circle"> </i>
-                    <h4>Hue<span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span></h4>
-                    <p>đẹp</p>
-                    <span class="time">2019-05-16 19:47:56</span>
-                </div></div>
             </div>
         </div>
-    </div>    </section>
+    </div>
+</section>
     
 
 <div class="footer">

@@ -73,9 +73,19 @@
                                     for ($i = 0; $i < sizeof($_SESSION['giohang']); $i++) {
                                         if ($_SESSION['giohang'][$i][4] == $sanpham_id) {
                                             $f1 = 1;
-                                            $quantitynew = $quantity + $_SESSION['giohang'][$i][3];
-                                            $_SESSION['giohang'][$i][3] = $quantitynew;
-                                            break;
+
+                                            $sql="SELECT `SoLuong` FROM `sanpham` WHERE `MaSP` ='$sanpham_id'"  ;
+                                            $addProduct = mysqli_query($conn, $sql);
+                                            $addProduct = mysqli_fetch_array($addProduct);
+                                            if ($_SESSION["giohang"][$i][3]+1 > $addProduct['SoLuong']) {
+                                                echo '<script type="text/javascript">alert("Số lượng sản phẩm trong kho không đủ");</script>';
+                                            }else {
+                                                echo '<script type="text/javascript">alert("Số lượng sản phẩm trong kho không đủ");</script>';
+                                                $quantitynew = $quantity + $_SESSION['giohang'][$i][3];
+                                                $_SESSION['giohang'][$i][3] = $quantitynew;
+                                                break;
+                                            }
+
 
                                         }
                                     }

@@ -90,6 +90,7 @@
         </div>
         <div class="payment-content-right-payment">
 <!--            <a href="cart.php" style="color:cornflowerblue"><span>&#171;</span><p style="font-size: 14px;">Quay lai gio hang</p></a>-->
+            <button  class="btn btn-outline-danger" type="button" onclick="location.href = 'DiaChi.php' "><span>&#171;</span><a style="font-size: 14px;"> Quay lại địa chỉ </a></button>
             <button  class="btn btn-outline-success"  onclick="add_DonHang()";><a style="font-weight: bold"><i class="fa fa-usd"></i> THANH TOÁN</a></button>
         </div>
     </div>

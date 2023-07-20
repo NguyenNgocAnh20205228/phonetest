@@ -15,12 +15,12 @@
         </tr>
         </tbody></table>
 
-    <div class="table-content">
+    <div class="table-content" id="table-content">
         <table class="table-outline hideImg">
             <tbody>
             <?php
                 $i=0;
-                     $sql_product="select * from sanpham order by MaSP desc";
+                    $sql_product="select * from sanpham order by MaSP desc";
                     $result=mysqli_query($conn,$sql_product );
             while ($row=mysqli_fetch_array($result)){  ?>
             <tr>
@@ -46,18 +46,20 @@
                 </td>
             </tr>
             <?php } ?>
-            </tbody></table></div>
+            </tbody>
+        </table>
+    </div>
     <div id="khungThemSanPham" class="overlay" >
         <?php require_once('add_update_product.php');?>
 
     </div>
 
     <div class="table-footer">
-        <select name="kieuTimSanPham">
-            <option value="ma">Tìm theo mã</option>
-            <option value="ten">Tìm theo tên</option>
+        <select name="kieuTimSanPham"id="kieuTimSanPham" >
+            <option value="MaSP">Tìm theo mã</option>
+            <option value="TenSP">Tìm theo tên</option>
         </select>
-        <input type="text" placeholder="Tìm kiếm..." onkeyup="timKiemSanPham(this)">
+        <input type="text" id="TimKiemSanPham"name="TimKiemSanPham" placeholder="Tìm kiếm..." onkeyup="timKiemSanPham(this)">
         <button onclick="viewAddProduct();">
             <i class="fa fa-plus-square"></i>
             Thêm sản phẩm

@@ -36,33 +36,47 @@ function add_NguoiDung(){
     } else if(password!=rpassword)
     { alert(" Mật khẩu nhập lại không đúng")
     }else{
-    var formData = new FormData();
-    formData.append('Ho', Ho);
-    formData.append('Ten', Ten);
-    formData.append('phone_number', phone_number);
-    formData.append('address', address);
-    formData.append('Email', email);
-    formData.append('TaiKhoan', TaiKhoan);
-    formData.append('MatKhau', password);
-        $.ajax({
-            type: "POST",
-            url: './php/dangKiNguoiDung.php',
-            data:formData,
-            processData: false,
-            contentType: false,
-            success: function (json) {
-                console.log(JSON.parse(json))
-                var a=JSON.parse(json);
-                if (a==="TaiKhoanDaTonTai"){
-                    alert("Tài khoản đã tồn tại")
-                }else {
-                    alert("Đăng kí thành công")
-                    window.location="login.php";
-                }
-
-
+        var check=1;
+        var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+            if (vnf_regex.test(phone_number) == false)
+            {
+                alert('Số điện thoại của bạn không đúng định dạng! Ví Dụ: 0xxxxxxxxx');
+                check=0;
             }
-        });
+        const regex_pattern =      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!regex_pattern.test(email)) {
+            alert('Email không hợp lệ ');
+            check=0;
+        }
+            if (check==1) {
+                // alert("ok");
+                var formData = new FormData();
+                formData.append('Ho', Ho);
+                formData.append('Ten', Ten);
+                formData.append('phone_number', phone_number);
+                formData.append('address', address);
+                formData.append('Email', email);
+                formData.append('TaiKhoan', TaiKhoan);
+                formData.append('MatKhau', password);
+                $.ajax({
+                    type: "POST",
+                    url: './php/dangKiNguoiDung.php',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (json) {
+                        console.log(JSON.parse(json))
+                        var a = JSON.parse(json);
+                        if (a === "TaiKhoanDaTonTai") {
+                            alert("Tài khoản đã tồn tại")
+                        } else {
+                            alert("Đăng kí thành công")
+                            window.location="login.php";
+                        }
 
+
+                    }
+                });
+            }
     }
 }

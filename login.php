@@ -51,20 +51,23 @@ include ('php/connect.php');
                 $row = mysqli_fetch_array($result);
                 if(isset($row['MaQuyen'])){
                     if ($row['MaQuyen']==1) {
-                        $_SESSION['user'] = $row;
-                        header("Location:index.php");
+                        if ($row['TrangThai']==1) {
+                            $_SESSION['user'] = $row;
+                            header("Location:index.php");
+                        }else{
+                            echo '<p style="color: red"> Tài khoản của bạn bị khóa</p>';
+                        }
                     } else if ($row['MaQuyen']==2) {
                         header("Location:admin/admin.php");
 
                     }
                 }else{
-                    echo "SELECT * FROM nguoidung where TaiKhoan='$TaiKhoan' and MatKhau='$md5password'";
-                    echo '<p style="color: red">Tai khoan hoac mat khau khong chinh xac </p>';
+                    echo '<p style="color: red">Tài khoản hoặc mật khẩu không chính xác</p>';
                 }
             }
 
             ?>
-            <input type="text" placeholder="Email" name="TaiKhoan" />
+            <input type="text" placeholder="Tài Khoản" name="TaiKhoan" />
             <input type="password" placeholder="Password" name="password"/>
             <a href="#">Quên mật khẩu?</a>
             <div class="button-ok">

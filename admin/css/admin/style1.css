@@ -28,7 +28,6 @@ a {
 /* header */
 header {
     z-index: 10;
-    width: 100%;
     /* position: sticky; */
     padding: 20px 10px;
     background-color: #3a4149;
@@ -452,4 +451,12 @@ input:checked+.slider:before {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #bbb;
+}
+.canvasContainer a {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: center;
+    text-align: center;
+    display: flex;
 }

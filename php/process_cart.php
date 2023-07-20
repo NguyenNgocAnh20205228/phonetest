@@ -5,15 +5,12 @@ include 'connect.php';
 switch ($_GET['action']) {
     case "update":
         $result = update_cart();
-        echo json_encode($result);
         break;
     case "tangsoluong":
-        $result = tangsoluong();
-        echo json_encode($result);
+        $result = tangsoluong();;
         break;
     case "giamsoluong":
         $result = giamsoluong();
-        echo json_encode($result);
         break;
     default:
         break;
@@ -23,7 +20,9 @@ function update_cart($add = false)
     $changeQuantity = false;
     foreach ($_POST['quantity'] as $id => $quantity) {
         if ($quantity == 0) {
-            unset($_SESSION["giohang"][$id][3]);
+            if ($id >= 0) {
+                array_splice($_SESSION['giohang'],$id, 1);
+            }
         } else {
             if (!isset($_SESSION["cart"][$id][3])) {
                 $_SESSION["giohang"][$id][3] = 0;
@@ -47,26 +46,39 @@ function update_cart($add = false)
 //                    $changeQuantity = true;
 //                }
 //            }
-            if ($add) {
-                return array(
-                    'status' => 1,
-                    'message' => "Thêm sản phẩm thành công"
-                );
-            }
+//            if ($add) {
+//                return array(
+//                    'status' => 1,
+//                    'message' => "Thêm sản phẩm thành công"
+//                );
+//            }
         }
     }
 }
 
 function tangsoluong(){
-    $id=$_GET['id'];
-        $_SESSION['giohang'][$id][3] = $_SESSION['giohang'][$id][3] + 1;
+        global $conn;
+        $id=$_GET['id'];
+        $MaSP=$_GET['MaSP'];
+        $sql="SELECT `SoLuong` FROM `sanpham` WHERE `MaSP` ='$MaSP'"  ;
+        $addProduct = mysqli_query($conn, $sql);
+        $addProduct = mysqli_fetch_array($addProduct);
+        if ($_SESSION["giohang"][$id][3]+1 > $addProduct['SoLuong']) {
+            $error = "LoiSoLuong";
+            echo json_encode ($error);
+        }else {
+            $error = "ok";
+            echo json_encode ($error);
+            $_SESSION['giohang'][$id][3] = $_SESSION['giohang'][$id][3] + 1;
+        }
 
 }
 function giamsoluong(){
-        $id=$_GET['id'];
-        if ($_SESSION['giohang'][$id][3] == 1) {
-            unset($_SESSION["giohang"][$id]);
+        if ($_SESSION['giohang'][$_GET['id']][3] == 1) {
+            if (isset($_GET['id'] ) && ($_GET['id'] >= 0)) {
+                array_splice($_SESSION['giohang'], $_GET['id'], 1);
+            }
         } else {
-            $_SESSION['giohang'][$id][3] = $_SESSION['giohang'][$id][3] - 1;
+            $_SESSION['giohang'][$_GET['id']][3] = $_SESSION['giohang'][$_GET['id']][3] - 1;
         };
 }

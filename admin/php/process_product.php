@@ -16,12 +16,7 @@ switch ($_GET['action']) {
 }
 
 function addproduct(){
-                    $servername = "localhost";
-                    $database = "web2";
-                    $username = "root";
-                    $password = "";
-                // Create connection
-                    $conn = mysqli_connect($servername, $username, $password, $database);
+                    global $conn;
                     $query='';
                     $MaLSP = $_POST['MaLSP'];
                     $TenSP = $_POST['TenSP'];
@@ -145,12 +140,7 @@ function addproduct(){
 
 }
 function updateproduct(){
-    $servername = "localhost";
-    $database = "web2";
-    $username = "root";
-    $password = "";
-    // Create connection
-    $conn = mysqli_connect($servername, $username, $password, $database);
+    global $conn;
     $query='';
     $MaSP = $_POST['MaSP'];
     $MaLSP = $_POST['MaLSP'];
@@ -307,16 +297,11 @@ function updateproduct(){
 
 }
 function deleteproduct(){
-    $servername = "localhost";
-    $database = "web2";
-    $username = "root";
-    $password = "";
-    // Create connection
-    $conn = mysqli_connect($servername, $username, $password, $database);
+    global $conn;
     $MaSP = $_GET['id'];
-    $sql1 = "DELETE FROM sanpham WHERE MaSP = '".$MaSP."';
-              ";
-    mysqli_query($conn, $sql1);
+    mysqli_query($conn, "DELETE FROM chitiethoadon WHERE MaSP = $MaSP;");
+    mysqli_query($conn, "DELETE FROM sanpham WHERE MaSP = $MaSP;");
+    mysqli_query($conn, "DELETE FROM hoadon WHERE MaHD NOT IN (SELECT DISTINCT MaHD FROM chitiethoadon);");
 
 }
 

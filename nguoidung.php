@@ -37,8 +37,8 @@
     <!--	 js-->
     <script src="js/classes.js"></script>
     <script src="js/dungchung.js"></script>
-    <script src="js/trangchu2.js"></script>
-    	<script src="js/nguoidung.js"></script>
+    <script src="js/trangchu1.js"></script>
+    <script src="js/nguoidung1.js"></script>
 
 
 
@@ -47,7 +47,7 @@
 
 <body>
 
-<?php include('php/connect.php') ?>
+<?php require_once('php/connect.php') ?>
 <section>
     <!--  Header -->
     <?php require_once ('dungchung/header.php')?>
@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <td>Tài khoản: </td>
-                <td> <input type="text" value="abc" readonly=""> </td>
+                <td> <input type="text" name="TaiKhoan" id="TaiKhoan"  value="<?php echo $_SESSION['user']['TaiKhoan'] ?>" readonly=""> </td>
                 <td> <i class="fa fa-pencil" onclick="changeInfo(this, 'username')"></i> </td>
             </tr>
             <tr>
@@ -74,15 +74,15 @@
                     <table>
                         <tbody><tr>
                             <td> <div>Mật khẩu cũ:</div> </td>
-                            <td> <div><input type="password"></div> </td>
+                            <td> <div><input name="old_password" id="old_password" type="password"></div> </td>
                         </tr>
                         <tr>
                             <td> <div>Mật khẩu mới:</div> </td>
-                            <td> <div><input type="password"></div> </td>
+                            <td> <div><input name="new_password" id="new_password"type="password"></div> </td>
                         </tr>
                         <tr>
                             <td> <div>Xác nhận mật khẩu:</div> </td>
-                            <td> <div><input type="password"></div> </td>
+                            <td> <div><input name="rnew_password" id="rnew_password" type="password"></div> </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -95,30 +95,35 @@
             </tr>
             <tr>
                 <td>Họ: </td>
-                <td> <input type="text" value="dsa" readonly=""> </td>
+                <td> <input type="text" id="Ho" name="Ho"  value="<?php echo $_SESSION['user']['Ho'] ?>" readonly=""> </td>
                 <td> <i class="fa fa-pencil" onclick="changeInfo(this, 'ho')"></i> </td>
             </tr>
             <tr>
                 <td>Tên: </td>
-                <td> <input type="text" value="sdadsa" readonly=""> </td>
+                <td> <input type="text" id="Ten" name="Ten"  value="<?php echo $_SESSION['user']['Ten'] ?>" readonly=""> </td>
                 <td> <i class="fa fa-pencil" onclick="changeInfo(this, 'ten')"></i> </td>
             </tr>
             <tr>
                 <td>Email: </td>
-                <td> <input type="text" value="dsadas@gmail.com" readonly=""> </td>
+                <td> <input type="text" id="Email" name="Email"  value="<?php echo $_SESSION['user']['Email'] ?>" readonly=""> </td>
                 <td> <i class="fa fa-pencil" onclick="changeInfo(this, 'email')"></i> </td>
             </tr>
             <tr>
                 <td colspan="3" style="padding:5px; border-top: 2px solid #ccc;"></td>
             </tr>
+            <?php $sql_tong="SELECT SUM(cthd.DonGia * cthd.SoLuong) AS TongTien, SUM(cthd.SoLuong) AS SoLuongSanPham FROM ChiTietHoaDon cthd 
+                            JOIN HoaDon hd ON cthd.MaHD = hd.MaHD
+                            WHERE hd.MaND = '".$_SESSION['user']['MaND']."' and hd.TrangThai=1; ";
+                    $result_tong=mysqli_fetch_array(mysqli_query($conn,$sql_tong));
+            ?>
             <tr>
                 <td>Tổng tiền đã mua: </td>
-                <td> <input type="text" value="5.050.000₫" readonly=""> </td>
+                <td> <input type="text" value="<?php echo number_format($result_tong['TongTien'], 0, ',');?>₫" readonly=""> </td>
                 <td></td>
             </tr>
             <tr>
                 <td>Số lượng sản phẩm đã mua: </td>
-                <td> <input type="text" value="2" readonly=""> </td>
+                <td> <input type="text" value="<?php echo number_format($result_tong['SoLuongSanPham'], 0, ',');?>" readonly=""> </td>
                 <td></td>
             </tr>
             </tbody></table></div>
@@ -127,36 +132,6 @@
 
 
 </section> <!-- End Section -->
-
-<!--	<script>-->
-<!--		addContainTaiKhoan(); addPlc();-->
-<!--	</script>-->
-
-<!--<div class="plc">-->
-<!--    <section>-->
-<!--        <ul class="flexContain">-->
-<!--            <li>Giao hàng hỏa tốc trong 1 giờ</li>-->
-<!--            <li>Thanh toán linh hoạt: tiền mặt, visa / master, trả góp</li>-->
-<!--            <li>Trải nghiệm sản phẩm tại nhà</li>-->
-<!--            <li>Lỗi đổi tại nhà trong 1 ngày</li>-->
-<!--            <li>Hỗ trợ suốt thời gian sử dụng.-->
-<!--                <br>Hotline:-->
-<!--                <a href="tel:12345678" style="color: #288ad6;">12345678</a>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </section>-->
-<!--</div>-->
-<!---->
-<!--<div class="footer">-->
-<!--    <!--<script>addFooter(); </script-->-->
-<!--    <!-- ============== Alert Box ============= -->-->
-<!--    <div id="alert">-->
-<!--        <span id="closebtn">&otimes;</span>-->
-<!--    </div>-->
-<!---->
-<!--    <!-- ============== Footer ============= -->-->
-<!--</div>-->
-
 <i class="fa fa-arrow-up" id="goto-top-page" onclick="gotoTop()"></i>
 
 

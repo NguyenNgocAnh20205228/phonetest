@@ -60,12 +60,22 @@ window.onload = function () {
         prettify_separator: ",",
         values_separator: " →   ",
         onFinish: function(data) {
-            $.ajax({
+            var url=window.location.href;
+            var urlObj = new URL(url);
+            var searchString = urlObj.search;
+            console.log(searchString);
+            if (searchString.includes("min") && searchString.includes("max")) {
+                var searchStringWithoutQuestionMark ='';
+            }else {
+                var searchStringWithoutQuestionMark = searchString.substring(1);
+                console.log(searchStringWithoutQuestionMark);
+            }
+                $.ajax({
                 type: "POST",
-                url: `KhungSanPham.php?min=`+data.from * 1E6+`&max=`+data.to * 1E6,
+                url: `KhungSanPham.php?min=`+data.from * 1E6+`&max=`+data.to * 1E6+`&`+searchStringWithoutQuestionMark,
                 success: function () {
-                    $.get(`KhungSanPham.php?min=`+data.from * 1E6+`&max=`+data.to * 1E6, function (cartContentHTML) {
-                        // console.log(cartContentHTML);
+                    $.get(`KhungSanPham.php?min=`+data.from * 1E6+`&max=`+data.to * 1E6+`&`+searchStringWithoutQuestionMark, function (cartContentHTML) {
+                        console.log(cartContentHTML);
                         $('#contain-khungSanPham').html(cartContentHTML);
                     });
                 }
@@ -80,22 +90,6 @@ window.onload = function () {
         if (min == 0) return 'Dưới ' + max / 1E6 + ' triệu';
         if (max == 0) return 'Trên ' + min / 1E6 + ' triệu';
         return 'Từ ' + min / 1E6 + ' - ' + max / 1E6 + ' triệu';
-    }
-
-// Chuyển khuyến mãi vễ dạng chuỗi tiếng việt
-    function promoToString(name) {
-        switch (name) {
-            case 'tragop':
-                return 'Trả góp';
-            case 'giamgia':
-                return 'Giảm giá';
-            case 'giareonline':
-                return 'Giá rẻ online';
-            case 'moiramat':
-                return 'Mới ra mắt';
-            case 'Nothing':
-                return 'Không khuyến mãi';
-        }
     }
 
 // Chuyển số sao về dạng chuỗi tiếng việt
@@ -123,25 +117,16 @@ window.onload = function () {
     // Thêm chọn mức giá
     function addPricesRange(min, max) {
         var text = priceToString(min, max);
-        var a = `<a onclick="window.location='index.php?min=`+ min +`&max=` +max +`'">` + text + `</a>`
+        var a = `<a onclick="loctheogia('` + min + `', '` + max + `')">` + text + `</a>`
 
         document.getElementsByClassName('pricesRangeFilter')[0]
             .getElementsByClassName('dropdown-content')[0].innerHTML += a;
     }
 
-// Thêm chọn khuyến mãi
-//     function addPromotion(name) {
-//         var text = promoToString(name);
-//         var promo = `<a onclick="window.location=''">` + text + `</a>`;
-//
-//         document.getElementsByClassName('promosFilter')[0]
-//             .getElementsByClassName('dropdown-content')[0].innerHTML += promo;
-//     }
-
 // Thêm chọn số lượng sao
     function addStarFilter(value) {
         var text = starToString(value);
-        var star = `<a onclick="">` + text + `</a>`;
+        var star = `<a onclick=" ">` + text + `</a>`;
 
         document.getElementsByClassName('starFilter')[0]
             .getElementsByClassName('dropdown-content')[0].innerHTML += star;
@@ -149,8 +134,8 @@ window.onload = function () {
 
 // Thêm chọn sắp xếp theo giá
     function addSortFilter(type, nameFilter, text) {
-        var sortTag = `<a onclick="">` + text + `</a>`;
-
+        // var sortTag = `<a onclick="xapSep(type ,nameFilter)">` + text + `</a>`;
+        var sortTag = `<a onclick="xapSep('` + type + `', '` + nameFilter + `')">` + text + `</a>`;
         document.getElementsByClassName('sortFilter')[0]
             .getElementsByClassName('dropdown-content')[0].innerHTML += sortTag;
     }
@@ -161,35 +146,66 @@ window.onload = function () {
     addPricesRange(4000000, 7000000);
     addPricesRange(7000000, 13000000);
     addPricesRange(13000000, 0);
-
-    // Thêm chọn khuyến mãi
-    // addPromotion('Nothing');
-    // addPromotion('giamgia');
-    // addPromotion('tragop');
-    // addPromotion('moiramat');
-    // addPromotion('giareonline');
-
-    // Thêm chọn số sao
-    // addStarFilter(0);
-    // addStarFilter(1);
-    // addStarFilter(2);
-    // addStarFilter(3);
-    // addStarFilter(4);
-    // addStarFilter(5);
-
     // Thêm chọn sắp xếp
     addSortFilter('asc', 'DonGia', 'Giá tăng dần');
-    addSortFilter('des', 'DonGia', 'Giá giảm dần');
-    // addSortFilter('asc', 'SoSao', 'Sao tăng dần');
-    // addSortFilter('des', 'SoSao', 'Sao giảm dần');
-    // addSortFilter('asc', 'SoDanhGia', 'Đánh giá tăng dần');
-    // addSortFilter('des', 'SoDanhGia', 'Đánh giá giảm dần');
+    addSortFilter('desc', 'DonGia', 'Giá giảm dần');
     addSortFilter('asc', 'TenSP', 'Tên A-Z');
-    addSortFilter('des', 'TenSP', 'Tên Z-A');
+    addSortFilter('desc', 'TenSP', 'Tên Z-A');
 
 
+}
+function xapSep(type,nameFilter){
+    var str=window.location.href;
+    if (str.includes('type') && str.includes('nameFilter')) {
+            updatedUrl = str.replace(/type=([^&]*)/, 'type='+type).replace(/nameFilter=([^&]*)/, 'nameFilter='+nameFilter);
+            window.location=updatedUrl;
+
+    }else {
+        var hasQuestionMark = str.includes('?');
+        if (hasQuestionMark) {
+            console.log("Chuỗi có chứa ký tự ?");
+            window.location = window.location.href + `&type=` + type + `&nameFilter=` + nameFilter;
+        } else {
+            console.log("Chuỗi không chứa ký tự ?");
+            window.location = window.location.href + `?type=` + type + `&nameFilter=` + nameFilter;
+        }
+    }
 
 
+}
+function loctheogia(min,max){
+    var url=window.location.href;
+    var urlObj = new URL(url);
+    var searchString = urlObj.search;
+    console.log(searchString);
+    if (searchString.includes("min") && searchString.includes("max")) {
+        var searchStringWithoutQuestionMark ='';
+    }else {
+        var searchStringWithoutQuestionMark = searchString.substring(1);
+        console.log(searchStringWithoutQuestionMark);
+    }
+    $.ajax({
+        type: "POST",
+        url: `KhungSanPham.php?min=`+min+`&max=`+max+`&`+searchStringWithoutQuestionMark,
+        success: function () {
+            $.get(`KhungSanPham.php?min=`+min+`&max=`+max+`&`+searchStringWithoutQuestionMark, function (cartContentHTML) {
+                console.log(cartContentHTML);
+                $('#contain-khungSanPham').html(cartContentHTML);
+            });
+        }
+    });
 
-
+}
+function xemThemSP(limit){
+    // alert('asdsadsa');
+    $.ajax({
+        type: "POST",
+        url: `KhungSanPham.php?`+limit,
+        success: function () {
+            $.get(`KhungSanPham.php?`+limit, function (cartContentHTML) {
+                // console.log(cartContentHTML);
+                $('#contain-khungSanPham').html(cartContentHTML);
+            });
+        }
+    });
 }

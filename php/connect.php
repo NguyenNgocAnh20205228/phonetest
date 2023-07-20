@@ -5,6 +5,13 @@ $database = "web2";
 $username = "root";
 $password = "";
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $database);
+global $conn;
+ $conn = mysqli_connect($servername, $username, $password, $database);
+// Kiểm tra kết nối
+if (!$conn) {
+    die("Kết nối thất bại: " . mysqli_connect_error());
+}
 
-SESSION_START();
+// Bắt đầu phiên
+session_start();
+?>

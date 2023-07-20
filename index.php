@@ -37,7 +37,7 @@
 <!--	 js-->
 	<script src="js/classes.js"></script>
 	<script src="js/dungchung.js"></script>
-	<script src="js/trangchu2.js"></script>
+
 <!--	<script src="data/products.js"></script>-->
 
 
@@ -151,7 +151,7 @@
 
 	<i class="fa fa-arrow-up" id="goto-top-page" onclick="gotoTop()"></i>
 
-
+<script src="js/trangchu1.js"></script>
 </body>
 
 </html>

@@ -50,7 +50,6 @@
             </li>
         </ul>
     </aside>
-
     <!-- Khung hiển thị chính -->
     <div class="main" id="main-content">
         <?php require_once ('home.php')?>

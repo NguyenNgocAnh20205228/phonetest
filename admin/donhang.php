@@ -15,16 +15,17 @@
         </tbody></table>
     <?php
     require_once ('php/connect.php');
-    $sql_HD="select * from hoadon";
-    $result=mysqli_query($conn,$sql_HD );?>
+?>
 
 
-    <div class="table-content">
+    <div class="table-content" id="table-content">
 
         <table class="table-outline hideImg">
             <tbody>
             <?php
             $i=1;
+            $sql_HD="select * from hoadon order by NgayLap desc";
+            $result=mysqli_query($conn,$sql_HD );
             while ($row=mysqli_fetch_array($result)){?>
             <tr>
                 <td style="width: 5%"><?php echo $i++ ?></td>
@@ -41,7 +42,7 @@
                 <?php  $sql_ChiTietHD="select * from chitiethoadon where MaHD =".''.$row['MaHD'];
                         $result_ChiTietHD=mysqli_query($conn,$sql_ChiTietHD );
                 ?>
-                <td style="width: 14%"> <?php echo $row['DiaChi']?></td>
+                <td style="width: 14%"> <?php echo $row['DiaChi'] .''." [".''."SDT:".''.$row['SDT'].''."]"?></td>
                 <td style="width: 19%">
                 <?php while ($row_ChiTietHD=mysqli_fetch_array($result_ChiTietHD)){?>
                     <?php  $sql_SP="select * from sanpham where MaSP =".''.$row_ChiTietHD['MaSP'];
@@ -80,15 +81,15 @@
             Từ ngày: <input type="date" id="fromDate">
             Đến ngày: <input type="date" id="toDate">
 
-            <button onclick="locDonHangTheoKhoangNgay()"><i class="fa fa-search"></i> Tìm</button>
+            <button onclick="locDonHangTheoNgay();"><i class="fa fa-search"></i> Tìm</button>
         </div>
 
-        <select name="kieuTimDonHang">
-            <option value="ma">Tìm theo mã đơn</option>
-            <option value="khachhang">Tìm theo tên khách hàng</option>
-            <option value="trangThai">Tìm theo trạng thái</option>
+        <select name="kieuTimDonHang"id="kieuTimDonHang">
+            <option value="MaHD">Tìm theo mã đơn</option>
+            <option value="MaND">Tìm theo tên khách hàng</option>
+            <option value="TrangThai">Tìm theo trạng thái</option>
         </select>
-        <input type="text" placeholder="Tìm kiếm..." onkeyup="timKiemDonHang(this)">
+        <input type="text" placeholder="Tìm kiếm..." id="NoiDungDonHangTimKiem" onkeyup="timKiemDonHang(this)">
     </div>
 
 </div>

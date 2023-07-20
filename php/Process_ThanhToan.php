@@ -18,8 +18,9 @@ function getSessionDiaChi(){
     $_SESSION['diachi']['Ho'] = $_POST['Ho'];
     $_SESSION['diachi']['Ten'] = $_POST['Ten'];
     $_SESSION['diachi']['phone_number'] = $_POST['phone_number'];
-    $_SESSION['diachi']['province'] = $_POST['province'];
+    $_SESSION['diachi']['city'] = $_POST['city'];
     $_SESSION['diachi']['district'] = $_POST['district'];
+    $_SESSION['diachi']['ward'] = $_POST['ward'];
     $_SESSION['diachi']['specific_address'] = $_POST['specific_address'];
 }
 function getSessionPhuongThuc(){
@@ -29,8 +30,7 @@ function getSessionPhuongThuc(){
 function addGioHangSQL(){
     require_once("connect.php");
     $HovaTen= $_SESSION['diachi']['Ho'] .''. " ".''.$_SESSION['diachi']['Ten'];
-    $DiaChi= $_SESSION['diachi']['specific_address'] .''." ".''. $_SESSION['diachi']['district'].''. " " .''.$_SESSION['diachi']['province'];
-
+    $DiaChi= $_SESSION['diachi']['specific_address'] .''." - ".''. $_SESSION['diachi']['ward'].''. " - " .''.$_SESSION['diachi']['district'].''. " - " .''.$_SESSION['diachi']['city'];
     date_default_timezone_set("Asia/Ho_Chi_Minh");
    $sql_giohang=" insert into hoadon(MaND,NgayLap,NguoiNhan,SDT,DiaChi,PhuongThucTT,TongTien,TrangThai) values(
                                                 '" . $_SESSION['user']['MaND'] . "',

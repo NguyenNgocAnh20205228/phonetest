@@ -6,7 +6,7 @@ $number_phone=$_POST['phone_number'];
 $address=$_POST['address'];
 $email=$_POST['Email'];
 $TaiKhoan=$_POST['TaiKhoan'];
-$password=$_POST['TaiKhoan'];
+$password=$_POST['MatKhau'];
 $rpassword=$_POST['MatKhau'];
 
 $sql = "SELECT TaiKhoan FROM nguoidung where TaiKhoan='$TaiKhoan'";

@@ -27,9 +27,9 @@
 				</td>
 				<td class="alignRight"><?php echo number_format($_SESSION['giohang'][$i][2], 0, ','); ?>₫</td>
 				<td class="soluong">
-					<button type="button" onclick="javascript:giamsoluong(<?= $i ?>)" name="quantity[<?= $i ?>]" ><i class="fa fa-minus"></i></button>
+					<button type="button" onclick="javascript:giamsoluong(<?=$i?>)" name="quantity[<?= $i ?>]" ><i class="fa fa-minus"></i></button>
 					<input oninput="javascript:updatequantity(this.value)" size="1" value="<?php echo$_SESSION['giohang'][$i][3]  ?>" name="quantity[<?= $i ?>]">
-					<button type="button" onclick="javascript:tangSoLuong(<?= $i ?>)" name="quantity[<?= $i ?>] "><i class="fa fa-plus"></i></button>
+					<button type="button" onclick="javascript:tangSoLuong(<?= $i ?>,<?= $_SESSION['giohang'][$i][4]?>)" name="quantity[<?= $i ?>] "><i class="fa fa-plus"></i></button>
 				</td>
 				<td class="alignRight"><?php $giatien=$_SESSION['giohang'][$i][3]*$_SESSION['giohang'][$i][2];echo number_format($giatien, 0, ',');?>₫</td>
 				<td class="noPadding">
